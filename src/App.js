@@ -1,5 +1,4 @@
 import "./App.css";
-import VideoDb from "./data/data";
 import Counter from "./components/Counter";
 import { useReducer, useState } from "react";
 import AddVideo from "./components/AddVideo";
@@ -15,6 +14,8 @@ function App() {
 
   function videosReducer(videos,action){
     switch(action.type){
+      case "LOAD":
+          return action.payload;
       case "ADD":
           return [
             ...videos,{ ...action.payload, id: videos.length+1 }
@@ -31,7 +32,7 @@ function App() {
         return videos;
     }
   };
-  const [videos,dispatch] = useReducer(videosReducer,VideoDb);
+  const [videos,dispatch] = useReducer(videosReducer,[]);
   const [mode,setMode] = useState('darkMode');
 
   function editVideo(id){

@@ -4,7 +4,7 @@ import ThemeContext from '../context/ThemeContext';
 import useVideoDispatch from '../hooks/VideoDispatch';
 
 function Video({id,title,channel="Apna channel",views,time,varified,children,editVideo}){
-    console.log("render-Video");
+    console.log("render-Video ", id);
 
     const theme = useContext(ThemeContext);
     const dispatch = useVideoDispatch();
