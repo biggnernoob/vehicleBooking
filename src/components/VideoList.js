@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useVideos from "../hooks/Videos";
 import PlayButton from "./playButton";
 import Video from "./Video";
@@ -11,11 +11,6 @@ function VideoList({ editVideo }) {
     // const [videos,setVideos] = useState([]);
     const dispatch = useVideoDispatch();
     const url = 'https://my.api.mockaroo.com/movies.json?key=e085bda0';
-    // async function handleClick(){
-    //     const res = await axios.get(url)
-    //     console.log("get videos working .... ", res);
-    //     dispatch({type:'LOAD',payload:res.data});
-    // }
 
     useEffect(() => {
         async function fetchVideos(){
@@ -27,6 +22,18 @@ function VideoList({ editVideo }) {
     },[dispatch])
 
     const videos = useVideos()
+
+    const play = useCallback(() => console.log("Play -> "),[]);
+    const pause = useCallback(() => console.log("pause -> "),[]);
+
+    const memoButton = useMemo(() => {
+        <PlayButton
+            onPlay={play}
+            onPause={pause}
+        >
+            Play..
+        </PlayButton>
+    },[pause,play])
   return (
     <>
         {
@@ -39,14 +46,9 @@ function VideoList({ editVideo }) {
                     time={video.time}
                     channel={video.channel}
                     varified={video.varified}
-                    editVideo={editVideo}
+                    editVideo={editVideo} 
                 >
-                    <PlayButton
-                        onPlay={() => console.log("Play -> ", video.title)}
-                        onPause={() => console.log("Pause -> ", video.title)}
-                    >
-                        {video.title}
-                    </PlayButton>
+                    {memoButton}
                 </Video>
             ))
         }
